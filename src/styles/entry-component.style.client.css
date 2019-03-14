@@ -1,0 +1,11 @@
+body {
+     font-family: Roboto, Arial, sans-serif;
+     -webkit-font-smoothing: antialiased;
+     background-color: #F5F5F5;
+     height: 100%;
+}
+
+.entry-point {
+    height: 200px;
+    margin-top: 16%;
+}

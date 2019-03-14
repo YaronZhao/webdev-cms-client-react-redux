@@ -1,0 +1,330 @@
+body {
+    font-family: Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+span, button {
+    cursor: pointer;
+}
+
+#topLeftBackBtn {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 30px;
+}
+
+#topLeftBackBtn:hover {
+    color: lightskyblue;
+}
+
+#courseName {
+    font-size: 18px;
+    white-space: nowrap;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.top-lesson-tabs {
+    width: 100%;
+}
+
+.top-lesson-tabs li {
+    width: 10%;
+}
+
+.top-lesson-tabs-btn {
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ababab;
+}
+
+.lesson-title:focus, .module-title:focus, .topic-title:focus {
+    outline: 0;
+    border: 3px solid mediumvioletred;
+    border-radius: 4px;
+    box-shadow: 0 0 10px yellow;
+}
+
+input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid grey;
+    border-radius: 0;
+    -webkit-appearance: none;
+    color: white;
+}
+
+.lesson-title {
+    font-weight: 700;
+    max-width: 150px;
+    color: whitesmoke !important;
+}
+
+.lesson-title::placeholder {
+    color: white;
+}
+
+.lesson-edit:hover, .module-edit:hover, .topic-edit:hover {
+    color: darkorange;
+}
+
+.lesson-save:hover, .module-save:hover, .topic-save:hover {
+    color: springgreen;
+}
+
+.lesson-delete:hover, .module-delete:hover, .topic-delete:hover {
+    color: red;
+}
+
+#newLessonTitle {
+    width: 125px;
+    color: whitesmoke !important;
+}
+
+#newLessonTitleLi {
+    width: 130px;
+}
+
+#addNewLessonLi {
+    width: 25px;
+}
+
+#addNewLessonBtn {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    padding-top: 8px;
+}
+
+#addNewLessonBtn:hover {
+    color: orangered;
+}
+
+#modules-and-content {
+    width: 100vw;
+    height: 100vh;
+}
+
+#left-nav {
+    background-color: #212121;
+}
+
+.module-title::placeholder {
+    color: white;
+}
+
+.module-title {
+    font-weight: 900;
+    color: antiquewhite !important;
+}
+
+#newModuleName {
+    color: antiquewhite !important;
+}
+
+#left-nav span, button {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    background-color: #424242;
+}
+
+.active-module, .left-nav-span:active {
+    background-color: #2196F3 !important;
+}
+
+#left-nav span:hover {
+    background-color: #2196F3;
+}
+
+#left-nav button {
+    background-color: transparent;
+}
+
+#left-nav input {
+    float: left;
+    width: 160px;
+}
+
+#add-new-module-span {
+    background-color: #212121 !important;
+}
+
+#addNewModuleBtn {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+button:focus {
+    outline: 0;
+}
+
+#addNewModuleBtn:hover {
+    color: orangered;
+}
+
+#newTopicName {
+    color: mediumvioletred !important;
+}
+
+.topic-title::placeholder {
+    color: white;
+}
+
+.topic-title {
+    font-size: 14px;
+    font-weight: 500;
+    width: 100px;
+    color: white !important;
+}
+
+.topic-action-span {
+    color: white;
+}
+
+.active-topic, .topic-span:hover, #addNewTopicBtn:hover {
+    background-color: #212121 !important;
+}
+
+#addNewTopicBtn {
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#save-btn {
+    font-weight: 600;
+}
+
+#save-and-preview {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#widget-list label {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#widget-list input, select {
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+}
+
+#widget-list select {
+    height: 33px;
+}
+
+#widget-list .fa-stack {
+    color: #FFCA28;
+}
+
+.fa-arrow-up, .fa-arrow-down {
+    color: black;
+}
+
+.fa-minus-square {
+    color: #DD2C00;
+}
+
+.fa-minus-square:hover {
+    color: #F06292;
+}
+
+.widget-type {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+}
+
+.widget-preview {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+}
+
+#headingTextFld::placeholder, #imageURLFld::placeholder, #linkURLFld::placeholder, #linkTextFld::placeholder, .heading-size, .list-style {
+    color: black;
+    font-weight: 400;
+}
+
+#paragraphTextFld, #listTextFld {
+    resize: vertical;
+    color: black;
+    font-weight: 400;
+}
+
+#addNewWidgetBtn {
+    color: #DD2C00;
+    bottom: 10px;
+    right: 15px;
+    position: fixed;
+}
+
+#addNewWidgetBtn:hover {
+    color: #E57373;
+}
+
+.move-up:hover, .move-down:hover {
+    color: #F57F17 !important;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: black;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px black;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

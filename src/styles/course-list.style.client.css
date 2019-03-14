@@ -1,0 +1,166 @@
+body {
+    overflow-x: hidden;
+    background-color: #F5F5F5;
+    max-width: 100%;
+}
+
+.nav-link:hover {
+    font-weight: 600;
+    color: white !important;
+}
+
+#newCourseTitle {
+    width: 320px;
+}
+
+#addCourseTop {
+    color: red;
+    bottom: 5px;
+    left: 5px;
+}
+
+span {
+    cursor: pointer;
+}
+
+table {
+    font-size: 14px;
+    font-family: Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    white-space: nowrap;
+}
+
+tbody {
+    cursor: pointer;
+}
+
+.course-icon {
+    margin-right: 10px;
+}
+
+.course-table-head {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 0;
+    border-style: hidden;
+    color: #555555;
+    font-weight: bold;
+}
+
+.course-head-title {
+    width: 50%;
+}
+
+.course-head-owner {
+    width: 15%;
+    text-align: right;
+}
+
+.course-head-modify-time {
+    width: 20%;
+    text-align: center;
+}
+
+.course-head-view-sort {
+    width: 15%;
+    text-align: right;
+}
+
+.fa-th:hover, .fa-list:hover {
+    color: #007bff !important;
+}
+
+.btn-sort {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.left-blank {
+    width: 10%;
+}
+
+.course-table-timeline {
+    width: 80%;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.right-blank {
+    width: 10%;
+}
+
+.course-item {
+    width: 80%;
+    background-color: white;
+}
+
+.course-table-content {
+    margin-bottom: 0;
+    border-style: hidden;
+}
+
+.course-content-title {
+    width: 50%;
+    font-weight: bold;
+    margin-right: 120px;
+}
+
+.course-content-title span {
+    color: #444;
+}
+
+.course-content-title span:hover {
+    color: #007bff;
+}
+
+.course-content-owner {
+    width: 15%;
+    color: #777777;
+}
+
+.course-content-modify-time {
+    width: 20%;
+    color: #777777;
+}
+
+.course-content-view-delete {
+    width: 15%;
+    font-weight: bold;
+    color: #555;
+    text-align: right;
+}
+
+#addNewCourseBottom {
+    color: red;
+    bottom: 10px;
+    right: 10px;
+    position: fixed;
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .card-columns {
+        column-count: 3;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 6;
+    }
+}
+
+.card-title, .card-text{
+    font-size: 1rem;
+}
+
+.card-title {
+    font-weight: 700;
+}
