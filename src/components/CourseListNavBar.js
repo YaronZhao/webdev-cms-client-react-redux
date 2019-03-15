@@ -54,10 +54,7 @@ class CourseListNavBar extends Component {
                           className="mt-2 fa-stack fa-1x"
                           role="button"
                           onClick={() =>
-                              this.props.addCourse({
-                                  "id": this.props.courses.length === 0 ?
-                                            (new Date()).getMilliseconds() :
-                                            this.props.courses[this.props.courses.length - 1].id + 1,
+                              this.props.addCourse(this.props.userId, {
                                   "title": (this.state.newCourseTitle === "") ?
                                       "New Course" : this.state.newCourseTitle,
                                   "modules": []

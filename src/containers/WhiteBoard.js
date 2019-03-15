@@ -27,11 +27,6 @@ class WhiteBoard extends Component {
         };
     }
 
-    componentDidMount() {
-        this.findAllCourses();
-        this.findAllUsers()
-    }
-
     findAllUsers = () => {
         this.userService.findAllUsers()
             .then(users => this.setState({
@@ -41,19 +36,25 @@ class WhiteBoard extends Component {
 
     login = user => {
         this.userService.login(user)
-            .then(user => this.setState({
-                loggedIn: true,
-                currentUser: user
-            }))
+            .then(user => {
+                this.setState({
+                    loggedIn: true,
+                    currentUser: user
+                });
+                this.findAllCourses(user.id)
+            })
             .catch(() => alert("User Not Found! Please try again."))
     };
 
     register = newUser => {
         this.userService.register(newUser)
-            .then(user => this.setState({
-                loggedIn: true,
-                currentUser: user
-            }))
+            .then(user => {
+                this.setState({
+                    loggedIn: true,
+                    currentUser: user
+                });
+                this.findAllCourses(user.id)
+            })
             .catch(() => {
                 this.setState({
                     loggedIn: false,
@@ -85,33 +86,33 @@ class WhiteBoard extends Component {
     };
 
     selectCourse = course => {
-        this.courseService.findCourseById(course.id)
+        this.courseService.findCourseById(this.state.currentUser.id, course.id)
             .then(c => this.setState({
                 selectedCourse: c
             }))
     };
 
-    findAllCourses = () => {
-        this.courseService.findAllCourses()
+    findAllCourses = userId => {
+        this.courseService.findAllCourses(userId)
             .then(courses => this.setState({
                 courses: courses
             }))
     };
 
-    addCourse = newCourse => {
+    addCourse = (userId, newCourse) => {
         console.log(newCourse);
-        this.courseService.createCourse(newCourse)
-            .then(() => this.findAllCourses())
+        this.courseService.createCourse(userId, newCourse)
+            .then(() => this.findAllCourses(userId))
     };
 
-    updateCourse = (courseId, updatedCourse) => {
-        this.courseService.updateCourse(courseId, updatedCourse)
-            .then(() => this.findAllCourses())
+    updateCourse = (userId, courseId, updatedCourse) => {
+        this.courseService.updateCourse(userId, courseId, updatedCourse)
+            .then(() => this.findAllCourses(userId))
     };
 
-    deleteCourse = courseId => {
-        this.courseService.deleteCourse(courseId)
-            .then(() => this.findAllCourses())
+    deleteCourse = (userId, courseId) => {
+        this.courseService.deleteCourse(userId, courseId)
+            .then(() => this.findAllCourses(userId))
     };
 
     render() {
@@ -124,6 +125,7 @@ class WhiteBoard extends Component {
                                   render={() =>
                                       <CourseTable
                                           logout={this.logout}
+                                          userId={this.state.currentUser.id}
                                           courses={this.state.courses}
                                           addCourse={this.addCourse}
                                           deleteCourse={this.deleteCourse}
@@ -134,6 +136,7 @@ class WhiteBoard extends Component {
                             render={() =>
                                 <CourseGrid
                                     logout={this.logout}
+                                    userId={this.state.currentUser.id}
                                     courses={this.state.courses}
                                     addCourse={this.addCourse}
                                     deleteCourse={this.deleteCourse}
@@ -159,9 +162,7 @@ class WhiteBoard extends Component {
                                     hideAlert={true}
                                     updateUser={this.updateUser}/>}/>
                         <Route path="/register"
-                               render={() => <RegisterComponent
-                                                register={this.register}
-                                                users={this.state.users}/>}/>
+                               render={() => <RegisterComponent register={this.register}/>}/>
                         <Route path="/login" render={() => <LoginComponent login={this.login}/>}/>
                         <Route path="/" render={() => <EntryComponent/>}/>
                         <Redirect to="/"/>

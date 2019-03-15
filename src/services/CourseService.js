@@ -1,6 +1,6 @@
 import widgets from './widgets'
 
-let baseURL = "https://murmuring-temple-45999.herokuapp.com/api/";
+let baseURL = "http://localhost:8080/api/user/";
 
 class CourseService {
     static courseService = null;
@@ -16,8 +16,8 @@ class CourseService {
         return CourseService.courseService;
     }
 
-    createCourse = newCourse =>
-        fetch(baseURL + "course", {
+    createCourse = (userId, newCourse) =>
+        fetch(baseURL + userId + "/course", {
             method: 'POST',
             body: JSON.stringify(newCourse),
             credentials: 'include',
@@ -26,18 +26,18 @@ class CourseService {
             }
         }).then(response => response.json());
 
-    findAllCourses = () =>
-        fetch(baseURL + "courses", {
+    findAllCourses = userId =>
+        fetch(baseURL + userId + "/courses", {
             credentials: 'include'
         }).then(response => response.json());
 
-    findCourseById = courseId =>
-        fetch(baseURL + "course/" + courseId, {
+    findCourseById = (userId, courseId) =>
+        fetch(baseURL + userId + "/course/" + courseId, {
             credentials: 'include'
         }).then(response => response.json());
 
-    updateCourse = (courseId, updatedCourse) =>
-        fetch(baseURL + "course/" + courseId, {
+    updateCourse = (userId, courseId, updatedCourse) =>
+        fetch(baseURL + userId + "/course/" + courseId, {
             method: 'PUT',
             body: JSON.stringify(updatedCourse),
             credentials: 'include',
@@ -46,8 +46,8 @@ class CourseService {
             }
         }).then(response => response.json());
 
-    deleteCourse = courseId =>
-        fetch(baseURL + "course/" + courseId, {
+    deleteCourse = (userId, courseId) =>
+        fetch(baseURL + userId + "/course/" + courseId, {
             method: 'DELETE',
             credentials: 'include'
         });

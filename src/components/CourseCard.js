@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const CourseCard = ({course, deleteCourse, selectCourse}) =>
+const CourseCard = ({userId, course, deleteCourse, selectCourse}) =>
     <div className="card course-card px-0">
         <div className="card-body">
             <img className="card-img-top"
@@ -20,7 +20,7 @@ const CourseCard = ({course, deleteCourse, selectCourse}) =>
             <a href="#"
                className="btn btn-primary btn-block"
                role="button"
-               onClick={() => deleteCourse(course.id)}>Delete</a>
+               onClick={() => deleteCourse(userId, course.id)}>Delete</a>
         </div>
     </div>;
 

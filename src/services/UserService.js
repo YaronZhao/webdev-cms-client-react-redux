@@ -1,4 +1,4 @@
-let baseURL = "https://murmuring-temple-45999.herokuapp.com/api/";
+let baseURL = "http://localhost:8080/api/";
 
 class UserService {
     static userService = null;

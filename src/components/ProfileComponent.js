@@ -86,15 +86,8 @@ const ProfileComponent = ({currentUser, hideAlert, updateUser}) =>
                     className="btn btn-success btn-block"
                     onClick={() => {
                         let updatedUser = {
-                            "id": currentUser.id,
-                            "userName": currentUser.userName,
-                            "password": currentUser.password,
-                            "firstName": currentUser.firstName,
-                            "lastName": currentUser.lastName,
                             "email": document.getElementById("emailFld").value,
                             "phone": document.getElementById("phoneFld").value,
-                            "role": currentUser.role,
-                            "courses": currentUser.courses
                         };
                         let result = updateUser(currentUser.id, updatedUser);
                         if (result !== null) {

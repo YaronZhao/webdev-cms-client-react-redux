@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const CourseRow = ({course, deleteCourse, selectCourse}) =>
+const CourseRow = ({userId, course, deleteCourse, selectCourse}) =>
     <div className="row mx-0">
         <div className="d-none d-sm-block left-blank"/>
         <div className="col border course-item">
@@ -22,7 +22,7 @@ const CourseRow = ({course, deleteCourse, selectCourse}) =>
                         <td className="course-content-view-delete">
                             <span className="align-middle"
                                   role="button"
-                                  onClick={() => deleteCourse(course.id)}>X</span>
+                                  onClick={() => deleteCourse(userId, course.id)}>X</span>
                         </td>
                     </tr>
                 </tbody>

@@ -3,9 +3,10 @@ import CourseListNavBar from "../components/CourseListNavBar";
 import CourseCard from "../components/CourseCard";
 import TableHead from "../components/TableHead";
 
-const CourseGrid = ({logout, courses, addCourse, deleteCourse, selectCourse}) =>
+const CourseGrid = ({logout, userId, courses, addCourse, deleteCourse, selectCourse}) =>
     <div>
         <CourseListNavBar
+            userId={userId}
             courses={courses}
             addCourse={addCourse}
             logout={logout}/>
@@ -16,6 +17,7 @@ const CourseGrid = ({logout, courses, addCourse, deleteCourse, selectCourse}) =>
                     {
                         courseRow.map((course) => (
                             <CourseCard
+                                userId={userId}
                                 course={course}
                                 key={course.id}
                                 deleteCourse={deleteCourse}
@@ -28,10 +30,7 @@ const CourseGrid = ({logout, courses, addCourse, deleteCourse, selectCourse}) =>
         <span id="addNewCourseBottom"
               className="fa-stack fa-1x"
               role="button"
-              onClick={() => addCourse({
-                  "id": courses.length === 0 ?
-                            (new Date()).getMilliseconds() :
-                            courses[courses.length - 1].id + 1,
+              onClick={() => addCourse(userId, {
                   "title": "New Course",
                   "modules": []
               })}>

@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from "react-router-dom";
 import '../styles/login-register-profile.style.client.css'
 
-const RegisterComponent = ({register, users}) =>
+const RegisterComponent = ({register}) =>
     <div className="px-3 pt-3">
         <h1>Sign Up</h1>
         <div className="form-group row">
@@ -96,9 +96,6 @@ const RegisterComponent = ({register, users}) =>
                       className="btn btn-primary btn-block"
                       role="button"
                       onClick={() => register({
-                          "id": users.length === 0 ?
-                                    (new Date()).getMilliseconds() :
-                                    users[users.length - 1].id + 1,
                           "userName": document.getElementById("usernameFld").value,
                           "password": document.getElementById("passwordFld").value,
                           "firstName": document.getElementById("firstNameFld").value,

@@ -3,9 +3,10 @@ import CourseListNavBar from "../components/CourseListNavBar";
 import CourseRow from "../components/CourseRow";
 import TableHead from "../components/TableHead";
 
-const CourseTable = ({logout, courses, addCourse, deleteCourse, selectCourse}) =>
+const CourseTable = ({logout, userId, courses, addCourse, deleteCourse, selectCourse}) =>
     <div>
         <CourseListNavBar
+            userId={userId}
             courses={courses}
             addCourse={addCourse}
             logout={logout}/>
@@ -13,6 +14,7 @@ const CourseTable = ({logout, courses, addCourse, deleteCourse, selectCourse}) =
         {
             courses.map((course) => (
                 <CourseRow
+                    userId={userId}
                     course={course}
                     key={course.id}
                     deleteCourse={deleteCourse}
@@ -23,15 +25,11 @@ const CourseTable = ({logout, courses, addCourse, deleteCourse, selectCourse}) =
               className="fa-stack fa-1x"
               role="button"
               onClick={() =>
-                  addCourse({
-                      "id": courses.length === 0 ?
-                                (new Date()).getMilliseconds() :
-                                courses[courses.length - 1].id + 1,
+                  addCourse(userId, {
                       "title": "New Course",
                       "modules": []
                   })
-              }
-        >
+              }>
             <i className="fas fa-circle fa-stack-2x"/>
             <i className="fas fa-plus fa-stack-1x fa-inverse"/>
         </span>
