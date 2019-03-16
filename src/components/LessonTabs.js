@@ -43,9 +43,12 @@ class LessonTabs extends Component {
                                 this.props.lessons.map((lesson, index) => (
                                     <LessonTab
                                         key={index}
+                                        index={index}
+                                        userId={this.props.userId}
+                                        courseId={this.props.courseId}
+                                        moduleId={this.props.moduleId}
                                         lessonId={lesson.id}
                                         lesson={lesson}
-                                        index={index}
                                         selected={this.props.selectedLesson === lesson}
                                         selectLesson={this.props.selectLesson}
                                         updateLesson={this.props.updateLesson}
@@ -65,11 +68,10 @@ class LessonTabs extends Component {
                                       role="button"
                                       onClick={() =>
                                           this.props.createLesson(
+                                              this.props.userId,
+                                              this.props.courseId,
                                               this.props.moduleId,
                                               {
-                                                  "id": this.props.lessons.length === 0 ?
-                                                           (new Date()).getMilliseconds() :
-                                                           this.props.lessons[this.props.lessons.length - 1].id + 1,
                                                   "title": (this.state.newLessonTitle === "") ?
                                                               "New Lesson" : this.state.newLessonTitle,
                                                   "topics": []

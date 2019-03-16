@@ -21,14 +21,19 @@ class TopicPills extends Component {
                 <ul className="nav nav-pills">
                     {
                         this.props.topics.map((topic, index) => (
-                            <TopicPill key={index}
-                                       topic={topic}
-                                       topicId={topic.id}
-                                       index={index}
-                                       selected={this.props.selectedTopic === topic}
-                                       selectTopic={this.props.selectTopic}
-                                       updateTopic={this.props.updateTopic}
-                                       deleteTopic={this.props.deleteTopic}/>
+                            <TopicPill
+                                key={index}
+                                index={index}
+                                userId={this.props.userId}
+                                courseId={this.props.courseId}
+                                moduleId={this.props.moduleId}
+                                lessonId={this.props.lessonId}
+                                topic={topic}
+                                topicId={topic.id}
+                                selected={this.props.selectedTopic === topic}
+                                selectTopic={this.props.selectTopic}
+                                updateTopic={this.props.updateTopic}
+                                deleteTopic={this.props.deleteTopic}/>
                         ))
                     }
                     <li className="nav-item ml-3 pt-1">
@@ -40,11 +45,11 @@ class TopicPills extends Component {
                                     className="ml-3 btn-secondary"
                                     onClick={() =>
                                             this.props.createTopic(
+                                                this.props.userId,
+                                                this.props.courseId,
+                                                this.props.moduleId,
                                                 this.props.lessonId,
                                                 {
-                                                    "id": this.props.topics.length === 0 ?
-                                                        (new Date()).getMilliseconds() :
-                                                        this.props.topics[this.props.topics.length - 1].id + 1,
                                                     "title": (this.state.newTopicTitle === "") ?
                                                            "New Topic" : this.state.newTopicTitle,
                                                     "widgets": []

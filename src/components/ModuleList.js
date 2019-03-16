@@ -24,9 +24,11 @@ class ModuleList extends Component {
                         this.props.modules.map((module, index) => (
                             <ModuleListItem
                                 key={index}
-                                module={module}
-                                moduleId={module.id}
                                 index={index}
+                                module={module}
+                                userId={this.props.userId}
+                                courseId={this.props.courseId}
+                                moduleId={module.id}
                                 selected={this.props.selectedModule === module}
                                 selectModule={this.props.selectModule}
                                 updateModule={this.props.updateModule}
@@ -44,11 +46,9 @@ class ModuleList extends Component {
                                 className="fas fa-plus fa-2x border-0"
                                 onClick={() =>
                                     this.props.createModule(
+                                        this.props.userId,
                                         this.props.courseId,
                                         {
-                                            "id": this.props.modules.length === 0 ?
-                                                     (new Date()).getMilliseconds() :
-                                                     this.props.modules[this.props.modules.length - 1].id + 1,
                                             "title": (this.state.newModuleTitle === "") ?
                                                         "New Module" : this.state.newModuleTitle,
                                             "lessons": []

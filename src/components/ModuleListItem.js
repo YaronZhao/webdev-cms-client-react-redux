@@ -1,6 +1,6 @@
 import React from 'react'
 
-const  ModuleListItem = ({module, moduleId, index, selected, selectModule, updateModule, deleteModule}) =>
+const  ModuleListItem = ({index, module, userId, courseId, moduleId, selected, selectModule, updateModule, deleteModule}) =>
     <span
         className={selected? "nav-item py-1 pl-3 mb-3 rounded left-nav-span active-module" :
                              "nav-item py-1 pl-3 mb-3 rounded left-nav-span"}
@@ -13,7 +13,7 @@ const  ModuleListItem = ({module, moduleId, index, selected, selectModule, updat
         <span>
             <i className="fas fa-minus-circle mx-2 mt-2 module-delete float-right"
                role="button"
-               onClick={() => deleteModule(moduleId)}/>
+               onClick={() => deleteModule(userId, courseId, moduleId)}/>
         </span>
         <span>
             <i className="fas fa-save ml-2 mt-2 module-save float-right"
@@ -22,7 +22,7 @@ const  ModuleListItem = ({module, moduleId, index, selected, selectModule, updat
                    let inputId = "module-" + index;
                    let newTitle = document.getElementById(inputId).value;
                    document.getElementById(inputId).blur();
-                   updateModule(moduleId, {
+                   updateModule(userId, courseId, moduleId, {
                        "id": module.id,
                        "title": newTitle,
                        "lessons": module.lessons

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LessonTab = ({lessonId, lesson, index, selected, selectLesson, updateLesson, deleteLesson}) =>
+const LessonTab = ({index, userId, courseId, moduleId, lessonId, lesson, selected, selectLesson, updateLesson, deleteLesson}) =>
     <li className="nav-item w-auto">
         <span role="button"
               className={selected ? "btn btn-dark border-0 p-0 pr-2 mr-2 top-lesson-tabs-btn active" :
@@ -27,7 +27,7 @@ const LessonTab = ({lessonId, lesson, index, selected, selectLesson, updateLesso
                        let inputId = "lesson-" + index;
                        let newTitle = document.getElementById(inputId).value;
                        document.getElementById(inputId).blur();
-                       updateLesson(lessonId, {
+                       updateLesson(userId, courseId, moduleId, lessonId, {
                            "id": lesson.id,
                            "title": newTitle,
                            "topics": lesson.topics
@@ -37,7 +37,7 @@ const LessonTab = ({lessonId, lesson, index, selected, selectLesson, updateLesso
             <span>
                 <i className="fas fa-minus-circle ml-2 lesson-delete"
                    role="button"
-                   onClick={() => deleteLesson(lessonId)}/>
+                   onClick={() => deleteLesson(userId, courseId, moduleId, lessonId)}/>
             </span>
         </span>
     </li>;

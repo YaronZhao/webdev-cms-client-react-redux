@@ -20,19 +20,11 @@ class WhiteBoard extends Component {
         this.userService = UserService.getInstance();
         this.state = {
             loggedIn: false,
-            users: [],
             currentUser: {},
             courses: [],
             selectedCourse: {}
         };
     }
-
-    findAllUsers = () => {
-        this.userService.findAllUsers()
-            .then(users => this.setState({
-                users: users
-            }))
-    };
 
     login = user => {
         this.userService.login(user)
@@ -86,10 +78,9 @@ class WhiteBoard extends Component {
     };
 
     selectCourse = course => {
-        this.courseService.findCourseById(this.state.currentUser.id, course.id)
-            .then(c => this.setState({
-                selectedCourse: c
-            }))
+        this.setState({
+                selectedCourse: course
+            })
     };
 
     findAllCourses = userId => {
@@ -147,13 +138,7 @@ class WhiteBoard extends Component {
                                render={(props) =>
                                     <CourseEditor
                                         {...props}
-                                        selectedCourse={this.state.selectedCourse}
-                                        createLesson={this.createLesson}
-                                        updateLesson={this.updateLesson}
-                                        deleteLesson={this.deleteLesson}
-                                        createTopic={this.createTopic}
-                                        updateTopic={this.updateTopic}
-                                        deleteTopic={this.deleteTopic}/>}/>
+                                        userId={this.state.currentUser.id}/>}/>
                         <Route
                             path="/profile"
                             render={() =>

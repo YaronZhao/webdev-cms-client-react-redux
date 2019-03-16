@@ -1,4 +1,4 @@
-let baseURL = "https://murmuring-temple-45999.herokuapp.com/api/";
+let baseURL = "http://localhost:8080/api/user/";
 
 class TopicService {
     static topicService = null;
@@ -10,8 +10,9 @@ class TopicService {
         return TopicService.topicService
     }
 
-    createTopic = (lessonId, newTopic) =>
-        fetch(baseURL + "lesson/" + lessonId + "/topic", {
+    createTopic = (userId, courseId, moduleId, lessonId, newTopic) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/"
+                    + moduleId + "/lesson/" + lessonId + "/topic", {
             method: 'POST',
             body: JSON.stringify(newTopic),
             credentials: 'include',
@@ -20,18 +21,21 @@ class TopicService {
             }
         }).then(response => response.json());
 
-    findAllTopics = lessonId =>
-        fetch(baseURL + "lesson/" + lessonId + "/topics", {
+    findAllTopics = (userId, courseId, moduleId, lessonId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/"
+                    + moduleId + "/lesson/" + lessonId + "/topics", {
             credentials: 'include',
         }).then(response => response.json());
 
-    findTopicById = topicId =>
-        fetch(baseURL + "topic/" + topicId, {
+    findTopicById = (userId, courseId, moduleId, lessonId, topicId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/"
+                    + moduleId + "/lesson/" + lessonId + "/topic/" + topicId, {
             credentials: 'include',
         }).then(response => response.json());
 
-    updateTopic = (topicId, updatedTopic) =>
-        fetch(baseURL + "topic/" + topicId, {
+    updateTopic = (userId, courseId, moduleId, lessonId, topicId, updatedTopic) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/"
+                    + moduleId + "/lesson/" + lessonId + "/topic/" + topicId, {
             method: 'PUT',
             body: JSON.stringify(updatedTopic),
             credentials: 'include',
@@ -40,8 +44,9 @@ class TopicService {
             }
         }).then(response => response.json());
 
-    deleteTopic = topicId =>
-        fetch(baseURL + "topic/" + topicId, {
+    deleteTopic = (userId, courseId, moduleId, lessonId, topicId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/"
+                    + moduleId + "/lesson/" + lessonId + "/topic/" + topicId, {
             method: 'DELETE',
             credentials: 'include',
         });

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TopicPill = ({topic, topicId, index, selected, selectTopic, updateTopic, deleteTopic}) =>
+const TopicPill = ({index, userId, courseId, moduleId, lessonId, topic, topicId, selected, selectTopic, updateTopic, deleteTopic}) =>
     <li className="nav-item ml-3 mb-2">
         <span className={selected ? "btn bg-secondary topic-span py-0 active-topic" :
                                     "btn bg-secondary topic-span py-0"}
@@ -25,7 +25,7 @@ const TopicPill = ({topic, topicId, index, selected, selectTopic, updateTopic, d
                        let inputId = "topic-" + index;
                        let newTitle = document.getElementById(inputId).value;
                        document.getElementById(inputId).blur();
-                       updateTopic(topicId, {
+                       updateTopic(userId, courseId, moduleId, lessonId, topicId, {
                            "id": topic.id,
                            "title": newTitle,
                            "widgets": topic.widgets
@@ -35,7 +35,7 @@ const TopicPill = ({topic, topicId, index, selected, selectTopic, updateTopic, d
             <span className="topic-action-span">
                 <i className="fas fa-minus-circle ml-2 topic-delete"
                    role="button"
-                   onClick={() => deleteTopic(topicId)}/>
+                   onClick={() => deleteTopic(userId, courseId, moduleId, lessonId, topicId)}/>
             </span>
         </span>
     </li>;

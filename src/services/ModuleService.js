@@ -1,4 +1,4 @@
-let baseURL = "https://murmuring-temple-45999.herokuapp.com/api/";
+let baseURL = "http://localhost:8080/api/user/";
 
 class ModuleService {
     static moduleService = null;
@@ -10,8 +10,8 @@ class ModuleService {
         return ModuleService.moduleService
     }
 
-    createModule = (courseId, newModule) =>
-        fetch(baseURL + "course/" + courseId + "/module", {
+    createModule = (userId, courseId, newModule) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module", {
             method: 'POST',
             body: JSON.stringify(newModule),
             credentials: 'include',
@@ -20,18 +20,18 @@ class ModuleService {
             }
         }).then(response => response.json());
 
-    findAllModules = courseId =>
-        fetch(baseURL + "course/" + courseId + "/modules", {
+    findAllModules = (userId, courseId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/modules", {
             credentials: 'include'
         }).then(response => response.json());
 
-    findModuleById = moduleId =>
-        fetch(baseURL + "module/" + moduleId, {
+    findModuleById = (userId, courseId, moduleId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/" + moduleId, {
             credentials: 'include'
         }).then(response => response.json());
 
-    updateModule = (moduleId, updatedModule) =>
-        fetch(baseURL + "module/" + moduleId, {
+    updateModule = (userId, courseId, moduleId, updatedModule) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/" + moduleId, {
             method: 'PUT',
             body: JSON.stringify(updatedModule),
             credentials: 'include',
@@ -40,8 +40,8 @@ class ModuleService {
             }
         }).then(response => response.json());
 
-    deleteModule = moduleId =>
-        fetch(baseURL + "module/" + moduleId, {
+    deleteModule = (userId, courseId, moduleId) =>
+        fetch(baseURL + userId + "/course/" + courseId + "/module/" + moduleId, {
             method: 'DELETE',
             credentials: 'include'
         });
