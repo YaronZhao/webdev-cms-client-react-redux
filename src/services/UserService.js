@@ -64,7 +64,7 @@ class UserService {
         fetch(baseURL + "user/" + userId, {
             method: 'DELETE',
             credentials: 'include'
-        }).then(response => response.json())
+        })
 }
 
 export default UserService;
