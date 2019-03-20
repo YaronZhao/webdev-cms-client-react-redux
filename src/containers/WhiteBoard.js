@@ -138,7 +138,8 @@ class WhiteBoard extends Component {
                                render={(props) =>
                                     <CourseEditor
                                         {...props}
-                                        userId={this.state.currentUser.id}/>}/>
+                                        userId={this.state.currentUser.id}
+                                        courseTitle={this.state.selectedCourse.title}/>}/>
                         <Route
                             path="/profile"
                             render={() =>

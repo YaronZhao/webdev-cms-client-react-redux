@@ -1,10 +1,11 @@
 import React from 'react'
 
-const TopicPill = ({index, userId, courseId, moduleId, lessonId, topic, topicId, selected, selectTopic, updateTopic, deleteTopic}) =>
+const TopicPill = ({index, userId, courseId, moduleId, lessonId, topics,
+                    topic, topicId, selected, selectTopic, updateTopic, deleteTopic}) =>
     <li className="nav-item ml-3 mb-2">
         <span className={selected ? "btn bg-secondary topic-span py-0 active-topic" :
                                     "btn bg-secondary topic-span py-0"}
-              onClick={() => selectTopic(topic)}>
+              onClick={() => selectTopic(topics, topic)}>
             <input id={"topic-" + index}
                    className="btn px-0 topic-title"
                    contentEditable="true"

@@ -1,11 +1,12 @@
 import React from 'react'
 
-const LessonTab = ({index, userId, courseId, moduleId, lessonId, lesson, selected, selectLesson, updateLesson, deleteLesson}) =>
+const LessonTab = ({index, userId, courseId, moduleId, lessons, lessonId,
+                    lesson, selected, selectLesson, updateLesson, deleteLesson}) =>
     <li className="nav-item w-auto">
         <span role="button"
               className={selected ? "btn btn-dark border-0 p-0 pr-2 mr-2 top-lesson-tabs-btn active" :
                                     "btn btn-dark border-0 p-0 pr-2 mr-2 top-lesson-tabs-btn"}
-              onClick={() => selectLesson(lesson)}>
+              onClick={() => selectLesson(lessons, lesson)}>
             <input
                 id={"lesson-" + index}
                 className="btn border-0 p-0 px-2 lesson-title"

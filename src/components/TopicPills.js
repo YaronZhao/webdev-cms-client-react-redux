@@ -28,6 +28,7 @@ class TopicPills extends Component {
                                 courseId={this.props.courseId}
                                 moduleId={this.props.moduleId}
                                 lessonId={this.props.lessonId}
+                                topics={this.props.topics}
                                 topic={topic}
                                 topicId={topic.id}
                                 selected={this.props.selectedTopic === topic}

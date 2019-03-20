@@ -25,6 +25,7 @@ class ModuleList extends Component {
                             <ModuleListItem
                                 key={index}
                                 index={index}
+                                modules={this.props.modules}
                                 module={module}
                                 userId={this.props.userId}
                                 courseId={this.props.courseId}

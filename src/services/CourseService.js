@@ -1,13 +1,7 @@
-import widgets from './widgets'
-
 let baseURL = "http://localhost:8080/api/user/";
 
 class CourseService {
     static courseService = null;
-
-    constructor() {
-        this.widgets = widgets;
-    }
 
     static getInstance() {
         if (CourseService.courseService === null) {

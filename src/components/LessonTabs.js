@@ -47,6 +47,7 @@ class LessonTabs extends Component {
                                         userId={this.props.userId}
                                         courseId={this.props.courseId}
                                         moduleId={this.props.moduleId}
+                                        lessons={this.props.lessons}
                                         lessonId={lesson.id}
                                         lesson={lesson}
                                         selected={this.props.selectedLesson === lesson}

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import CourseService from '../services/CourseService'
 import LessonTabs from "../components/LessonTabs";
 import ModuleList from "../components/ModuleList";
 import TopicPills from "../components/TopicPills";
@@ -16,7 +15,6 @@ const store = createStore(widgetReducer);
 class CourseEditor extends Component {
     constructor(props) {
         super(props);
-        this.courseService = CourseService.getInstance();
         this.moduleService = ModuleService.getInstance();
         this.lessonService = LessonService.getInstance();
         this.topicService = TopicService.getInstance();
@@ -35,69 +33,47 @@ class CourseEditor extends Component {
     }
 
     componentDidMount() {
-        this.courseService.findCourseById(this.state.userId, this.courseId)
-            .then(course => this.setState({
-                course: course,
-                modules: course.modules,
-                lessons: course.modules.length === 0 ? [] : course.modules[0].lessons,
-                topics:
-                    (course.modules.length === 0 ?
-                        [] :
-                        (course.modules[0].lessons.length === 0) ?
-                            [] :
-                            course.modules[0].lessons[0].topics),
-                selectedModule: (course.modules.length === 0 ? {} : course.modules[0]),
-                selectedLesson:
-                    (course.modules.length === 0 ?
-                        {} :
-                        (course.modules[0].lessons.length === 0 ?
-                            {} :
-                            course.modules[0].lessons[0])),
-                selectedTopic:
-                    (course.modules.length === 0 ?
-                        {} :
-                        (course.modules[0].lessons.length === 0) ?
-                            {} :
-                            (course.modules[0].lessons[0].topics.length === 0 ?
-                                {} :
-                                course.modules[0].lessons[0].topics[0]))
-            }))
+        this.findAllModules(this.state.userId, this.courseId)
     }
 
-    selectModule = module => {
-        this.setState({
-            selectedModule: module,
-            lessons: module === {} ? [] : module.lessons,
-            topics:
-                (module === {} ?
-                    [] :
-                    (module.lessons.length === 0 ?
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("updated")
+    }
+
+    selectModule = (modules, module) => {
+        if (this.state.selectedModule !== module) {
+            this.setState({
+                modules: modules,
+                selectedModule: module,
+                lessons: module === {} ? [] : module.lessons,
+                topics:
+                    (module === {} ?
                         [] :
-                        module.lessons[0].topics)),
-            selectedLesson:
-                (module === {} ?
-                    {} :
-                    (module.lessons.length === 0 ?
+                        (module.lessons.length === 0 ?
+                            [] :
+                            module.lessons[0].topics)),
+                selectedLesson:
+                    (module === {} ?
                         {} :
-                        module.lessons[0])),
-            selectedTopic:
-                (module === {} ?
-                    {} :
-                    (module.lessons.length === 0 ?
+                        (module.lessons.length === 0 ?
+                            {} :
+                            module.lessons[0])),
+                selectedTopic:
+                    (module === {} ?
                         {} :
-                        (module.lessons[0].topics.length === 0 ?
-                            {} : module.lessons[0].topics[0])))
-        })
+                        (module.lessons.length === 0 ?
+                            {} :
+                            (module.lessons[0].topics.length === 0 ?
+                                {} : module.lessons[0].topics[0])))
+            })
+        }
     };
 
-    findAllModules = () => {
-        this.moduleService.findAllModules(this.state.userId, this.state.courseId)
+    findAllModules = (userId, courseId) => {
+        this.moduleService.findAllModules(userId, courseId)
             .then(modules => {
                 if (modules.length === this.state.modules.length + 1) {
-                    this.setState({
-                        modules: modules
-                    });
-                    this.selectModule(modules[modules.length - 1])
+                    this.selectModule(modules, modules[modules.length - 1])
                 } else if (modules.length === 0) {
                     this.setState({
                         modules: [],
@@ -108,10 +84,7 @@ class CourseEditor extends Component {
                         selectedTopic: {}
                     })
                 } else {
-                    this.setState({
-                        modules: modules
-                    });
-                    this.selectModule(modules[0])
+                    this.selectModule(modules, modules[0])
                 }
             })
     };
@@ -120,7 +93,7 @@ class CourseEditor extends Component {
         this.moduleService.createModule(userId, courseId, newModule)
             .then(module => {
                 console.log("New module: " + module);
-                this.findAllModules()
+                this.findAllModules(this.state.userId, this.state.courseId)
             });
         document.getElementById("newModuleName").value = ""
     };
@@ -129,34 +102,58 @@ class CourseEditor extends Component {
         this.moduleService.updateModule(userId, courseId, moduleId, updatedModule)
             .then(module => {
                 console.log("Updated module: " + module);
-                this.findAllModules()
+                this.findAllModules(this.state.userId, this.state.courseId)
             })
     };
 
     deleteModule = (userId, courseId, moduleId) => {
         this.moduleService.deleteModule(userId, courseId, moduleId)
-            .then(() => this.findAllModules())
+            .then(() => this.findAllModules(this.state.userId, this.state.courseId))
     };
 
-    selectLesson = lesson => {
-        this.setState({
-            selectedLesson: lesson,
-            topics: lesson === {} ? [] : lesson.topics,
-            selectedTopic:
-                (lesson === {} ?
-                    {} :
-                    lesson.topics.length === 0 ?
+    selectLesson = (lessons, lesson) => {
+        if (this.state.selectedLesson !== lesson) {
+            this.setState({
+                lessons: lessons,
+                selectedLesson: lesson,
+                topics: lesson === {} ? [] : lesson.topics,
+                selectedTopic:
+                    (lesson === {} ?
                         {} :
-                        lesson.topics[0])
+                        lesson.topics.length === 0 ?
+                            {} :
+                            lesson.topics[0])
 
-        })
+            })
+        }
+    };
+
+    findAllLessons = () => {
+        this.lessonService.findAllLessons(
+            this.state.userId,
+            this.state.courseId,
+            this.state.selectedModule.id)
+            .then(lessons => {
+                if (lessons.length === this.state.lessons.length + 1) {
+                    this.selectLesson(lessons, lessons[lessons.length - 1])
+                } else if (lessons.length === 0) {
+                    this.setState({
+                        lessons: [],
+                        topics: [],
+                        selectedLesson: {},
+                        selectedTopic: {}
+                    })
+                } else {
+                    this.selectLesson(lessons, lessons[0])
+                }
+            })
     };
 
     createLesson = (userId, courseId, moduleId, newLesson) => {
         this.lessonService.createLesson(userId, courseId, moduleId, newLesson)
             .then(lesson => {
                 console.log("New lesson: " + lesson);
-                this.findAllModules()
+                this.findAllLessons()
             });
         document.getElementById("newLessonTitle").value = ""
     };
@@ -165,26 +162,49 @@ class CourseEditor extends Component {
         this.lessonService.updateLesson(userId, courseId, moduleId, lessonId, updatedLesson)
             .then(lesson => {
                 console.log("Updated lesson: " + lesson);
-                this.findAllModules()
+                this.findAllLessons()
             })
     };
 
     deleteLesson = (userId, courseId, moduleId, lessonId) => {
         this.lessonService.deleteLesson(userId, courseId, moduleId, lessonId)
-            .then(() => this.findAllModules())
+            .then(() => this.findAllLessons())
     };
 
-    selectTopic = topic => {
-        this.setState({
-            selectedTopic: topic
-        })
+    selectTopic = (topics, topic) => {
+        if (this.state.selectedTopic !== topic) {
+            this.setState({
+                topics: topics,
+                selectedTopic: topic
+            })
+        }
+    };
+
+    findAllTopics = () => {
+        this.topicService.findAllTopics(
+            this.state.userId,
+            this.state.courseId,
+            this.state.selectedModule.id,
+            this.state.selectedLesson.id)
+            .then(topics => {
+                if (topics.length === this.state.topics.length + 1) {
+                    this.selectTopic(topics, topics[topics.length - 1])
+                } else if (topics.length === 0) {
+                    this.setState({
+                        topics: [],
+                        selectedTopic: {}
+                    })
+                } else {
+                    this.selectTopic(topics, topics[0])
+                }
+            })
     };
 
     createTopic = (userId, courseId, moduleId, lessonId, newTopic) => {
         this.topicService.createTopic(userId, courseId, moduleId, lessonId, newTopic)
             .then(topic => {
                 console.log("New topic: " + topic);
-                this.findAllModules()
+                this.findAllTopics()
             });
         document.getElementById("newTopicName").value = ""
     };
@@ -192,21 +212,20 @@ class CourseEditor extends Component {
     updateTopic = (userId, courseId, moduleId, lessonId, topicId, updatedTopic) => {
         this.topicService.updateTopic(userId, courseId, moduleId, lessonId, topicId, updatedTopic)
             .then(topic => {
-                console.log("Updated topic: " + topic);
-                this.findAllModules()
+                this.findAllTopics()
             })
     };
 
     deleteTopic = (userId, courseId, moduleId, lessonId, topicId) => {
         this.topicService.deleteTopic(userId, courseId, moduleId, lessonId, topicId)
-            .then(() => this.findAllModules())
+            .then(() => this.findAllTopics())
     };
 
     render() {
         return(
             <div>
                 <LessonTabs
-                    courseTitle={this.state.course.title}
+                    courseTitle={this.props.courseTitle}
                     userId={this.state.userId}
                     courseId={this.state.courseId}
                     moduleId={this.state.selectedModule === {} ? null : this.state.selectedModule.id}
@@ -238,10 +257,10 @@ class CourseEditor extends Component {
                             createTopic={this.createTopic}
                             updateTopic={this.updateTopic}
                             deleteTopic={this.deleteTopic}/>
-                        <Provider store={store}>
-                            <WidgetListContainer
-                                topicId="9999"/>
-                        </Provider>
+                        {/*<Provider store={store}>*/}
+                            {/*<WidgetListContainer*/}
+                                {/*topicId="9999"/>*/}
+                        {/*</Provider>*/}
                     </div>
                 </div>
             </div>

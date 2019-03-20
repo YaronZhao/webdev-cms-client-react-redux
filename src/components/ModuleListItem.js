@@ -1,10 +1,11 @@
 import React from 'react'
 
-const  ModuleListItem = ({index, module, userId, courseId, moduleId, selected, selectModule, updateModule, deleteModule}) =>
+const  ModuleListItem = ({index, modules, module, userId, courseId, moduleId,
+                          selected, selectModule, updateModule, deleteModule}) =>
     <span
         className={selected? "nav-item py-1 pl-3 mb-3 rounded left-nav-span active-module" :
                              "nav-item py-1 pl-3 mb-3 rounded left-nav-span"}
-        onClick={() => selectModule(module)}>
+        onClick={() => selectModule(modules, module)}>
         <input id={"module-" + index}
                className="btn border-0 float-left module-title"
                contentEditable="true"
