@@ -9,6 +9,7 @@ import WidgetListContainer from './WidgetListContainer'
 import ModuleService from "../services/ModuleService";
 import LessonService from "../services/LessonService";
 import TopicService from "../services/TopicService";
+import WidgetService from "../services/WidgetService";
 
 const store = createStore(widgetReducer);
 
@@ -18,17 +19,18 @@ class CourseEditor extends Component {
         this.moduleService = ModuleService.getInstance();
         this.lessonService = LessonService.getInstance();
         this.topicService = TopicService.getInstance();
+        this.widgetService = WidgetService.getInstance();
         this.courseId = this.props.match.params.id;
         this.state = {
             userId: this.props.userId,
             courseId: this.courseId,
-            course: {},
+            course: null,
             modules: [],
             lessons: [],
             topics: [],
-            selectedModule: {},
-            selectedLesson: {},
-            selectedTopic: {}
+            selectedModule: null,
+            selectedLesson: null,
+            selectedTopic: null
         }
     }
 
@@ -37,7 +39,26 @@ class CourseEditor extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("updated")
+        if (this.state.selectedTopic !== null
+            && prevState.selectedTopic !== this.state.selectedTopic) {
+            this.widgetService.findAllWidgets(
+                this.state.userId,
+                this.state.courseId,
+                this.state.selectedModule.id,
+                this.state.selectedLesson.id,
+                this.state.selectedTopic.id
+            ).then(widgets => store.dispatch({
+                type: "FIND_ALL_WIDGETS_FOR_TOPIC",
+                widgets: widgets,
+                previewing: false
+            }))
+        } else {
+            store.dispatch({
+                type: "FIND_ALL_WIDGETS_FOR_TOPIC",
+                widgets: [],
+                previewing: false
+            })
+        }
     }
 
     selectModule = (modules, module) => {
@@ -45,26 +66,20 @@ class CourseEditor extends Component {
             this.setState({
                 modules: modules,
                 selectedModule: module,
-                lessons: module === {} ? [] : module.lessons,
+                lessons: module.lessons,
                 topics:
-                    (module === {} ?
+                     module.lessons.length === 0 ?
                         [] :
-                        (module.lessons.length === 0 ?
-                            [] :
-                            module.lessons[0].topics)),
+                        module.lessons[0].topics,
                 selectedLesson:
-                    (module === {} ?
-                        {} :
-                        (module.lessons.length === 0 ?
-                            {} :
-                            module.lessons[0])),
+                     module.lessons.length === 0 ?
+                        null :
+                        module.lessons[0],
                 selectedTopic:
-                    (module === {} ?
-                        {} :
-                        (module.lessons.length === 0 ?
-                            {} :
-                            (module.lessons[0].topics.length === 0 ?
-                                {} : module.lessons[0].topics[0])))
+                    (module.lessons.length === 0 ?
+                        null :
+                        (module.lessons[0].topics.length === 0 ?
+                            null : module.lessons[0].topics[0]))
             })
         }
     };
@@ -79,9 +94,9 @@ class CourseEditor extends Component {
                         modules: [],
                         lessons: [],
                         topics: [],
-                        selectedModule: {},
-                        selectedLesson: {},
-                        selectedTopic: {}
+                        selectedModule: null,
+                        selectedLesson: null,
+                        selectedTopic: null
                     })
                 } else {
                     this.selectModule(modules, modules[0])
@@ -116,14 +131,11 @@ class CourseEditor extends Component {
             this.setState({
                 lessons: lessons,
                 selectedLesson: lesson,
-                topics: lesson === {} ? [] : lesson.topics,
+                topics: lesson.topics,
                 selectedTopic:
-                    (lesson === {} ?
-                        {} :
-                        lesson.topics.length === 0 ?
-                            {} :
-                            lesson.topics[0])
-
+                    lesson.topics.length === 0 ?
+                        null :
+                        lesson.topics[0]
             })
         }
     };
@@ -140,8 +152,8 @@ class CourseEditor extends Component {
                     this.setState({
                         lessons: [],
                         topics: [],
-                        selectedLesson: {},
-                        selectedTopic: {}
+                        selectedLesson: null,
+                        selectedTopic: null
                     })
                 } else {
                     this.selectLesson(lessons, lessons[0])
@@ -192,7 +204,7 @@ class CourseEditor extends Component {
                 } else if (topics.length === 0) {
                     this.setState({
                         topics: [],
-                        selectedTopic: {}
+                        selectedTopic: null
                     })
                 } else {
                     this.selectTopic(topics, topics[0])
@@ -228,7 +240,7 @@ class CourseEditor extends Component {
                     courseTitle={this.props.courseTitle}
                     userId={this.state.userId}
                     courseId={this.state.courseId}
-                    moduleId={this.state.selectedModule === {} ? null : this.state.selectedModule.id}
+                    moduleId={this.state.selectedModule === null ? null : this.state.selectedModule.id}
                     lessons={this.state.lessons}
                     selectedLesson={this.state.selectedLesson}
                     selectLesson={this.selectLesson}
@@ -249,18 +261,25 @@ class CourseEditor extends Component {
                         <TopicPills
                             userId={this.state.userId}
                             courseId={this.state.courseId}
-                            moduleId={this.state.selectedModule === {} ? null : this.state.selectedModule.id}
-                            lessonId={this.state.selectedLesson === {} ? null : this.state.selectedLesson.id}
+                            moduleId={this.state.selectedModule === null ? null : this.state.selectedModule.id}
+                            lessonId={this.state.selectedLesson === null ? null : this.state.selectedLesson.id}
                             topics={this.state.topics}
                             selectedTopic={this.state.selectedTopic}
                             selectTopic={this.selectTopic}
                             createTopic={this.createTopic}
                             updateTopic={this.updateTopic}
                             deleteTopic={this.deleteTopic}/>
-                        {/*<Provider store={store}>*/}
-                            {/*<WidgetListContainer*/}
-                                {/*topicId="9999"/>*/}
-                        {/*</Provider>*/}
+                        {
+                            this.state.selectedTopic !== null &&
+                            <Provider store={store}>
+                                <WidgetListContainer
+                                    userId={this.state.userId}
+                                    courseId={this.state.courseId}
+                                    moduleId={this.state.selectedModule === null ? null : this.state.selectedModule.id}
+                                    lessonId={this.state.selectedLesson === null ? null : this.state.selectedLesson.id}
+                                    topicId={this.state.selectedTopic === null ? null : this.state.selectedTopic.id}/>
+                            </Provider>
+                        }
                     </div>
                 </div>
             </div>

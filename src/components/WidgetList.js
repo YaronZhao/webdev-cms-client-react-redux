@@ -5,25 +5,31 @@ import ListWidget from "./ListWidget";
 import ImageWidget from "./ImageWidget";
 import LinkWidget from "./LinkWidget";
 
-const WidgetList = ({topicId, widgets, previewing, findWidgets, currentTopicId, createWidget, deleteWidget, updateWidget, moveWidgetUp, moveWidgetDown, saveWidgetList, togglePreviewMode}) =>
-    <div onLoad={topicId !== currentTopicId && findWidgets(topicId)}>
+const WidgetList = ({userId, courseId, moduleId, lessonId, topicId, widgets, findAllWidgetsForTopic, createWidget,
+                     updateWidget, deleteWidget, moveWidgetUp, moveWidgetDown, saveWidgetList, togglePreviewMode, previewing}) =>
+    <div>
         <div id="save-and-preview" className="mt-3 mr-1 pr-4 text-right">
             <button id="save-btn"
                     type="button"
                     className="btn btn-success"
-                    onClick={() => saveWidgetList(topicId, widgets)}>Save
+                    onClick={() => saveWidgetList(userId, courseId, moduleId, lessonId, topicId, widgets)}>
+                Save
             </button>
             <label htmlFor="preview-btn" className="mx-3">Preview</label>
             <label id="preview-btn"
                    className="switch align-middle mt-2">
-                <input type="checkbox"
-                       onClick={togglePreviewMode}/>
+                <input
+                    type="checkbox"
+                    defaultChecked={false}
+                    checked={previewing}
+                    onClick={togglePreviewMode}
+                    onChange={() => console.log(previewing)}/>
                 <span className="slider round"/>
             </label>
         </div>
         <div id="widget-list" className="mt-4 border rounded">
             {
-                widgets !== null && widgets.map((widget, index) =>
+                widgets !== [] && widgets.map((widget, index) =>
                     <div className="mt-2 pl-4 pr-5 border-bottom" key={index}>
                         {widget.type === 'HEADING'
                         && <HeadingWidget
@@ -84,18 +90,12 @@ const WidgetList = ({topicId, widgets, previewing, findWidgets, currentTopicId, 
               role="button">
             <i className="fas fa-square fa-stack-2x"/>
             <i className="fas fa-plus-circle fa-stack-1x fa-inverse"
-               onClick={() => createWidget(topicId, {
-                   id: (new Date()).getTime(),
-                   type: 'HEADING',
-                   size: 1,
-                   headingText: "Default heading text",
-                   paragraphText: "Default paragraph text",
-                   style: "unordered",
-                   items: "Enter one list item per line",
-                   src: "Image URL",
-                   title: "Link text",
-                   href: "Link URL"
-               })}/>
+               onClick={() =>
+                   createWidget({
+                       type: 'HEADING',
+                       headingSize: 1,
+                       headingText: "Heading text"
+                   })}/>
         </span>
     </div>;
 

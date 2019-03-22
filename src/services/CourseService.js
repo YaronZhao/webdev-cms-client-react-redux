@@ -1,4 +1,4 @@
-let baseURL = "http://localhost:8080/api/user/";
+let baseURL = "https://agile-stream-85906.herokuapp.com/api/user/";
 
 class CourseService {
     static courseService = null;
@@ -8,6 +8,10 @@ class CourseService {
             CourseService.courseService = new CourseService();
         }
         return CourseService.courseService;
+    }
+
+    constructor() {
+        this.widgets = [];
     }
 
     createCourse = (userId, newCourse) =>

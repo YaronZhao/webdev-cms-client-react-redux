@@ -1,56 +1,88 @@
-import CourseService from '../services/CourseService'
+import WidgetService from "../services/WidgetService";
 
-let courseService = CourseService.getInstance();
+let widgetService = WidgetService.getInstance();
 
 const widgetReducer = (state = {widgets: [], previewing: false}, action) => {
     switch (action.type) {
-        case "CREATE_WIDGET":
-            courseService.createWidget(action.topicId, action.widget);
+        case "FIND_ALL_WIDGETS_FOR_TOPIC":
+            widgetService.setWidgets(action.widgets);
+            widgetService.setWidgetsToDelete([]);
+            state.widgets = Object.assign([], action.widgets);
             return {
-                widgets: courseService.findWidgets(action.topicId)
+                widgets: state.widgets,
+                previewing: action.previewing
             };
-        case "DELETE_WIDGET":
-            courseService.deleteWidget(action.widgetId);
+        case "CREATE_WIDGET":
+            let newWidgets = [
+                ...widgetService.getWidgets(),
+                action.widget
+            ];
+            widgetService.setWidgets(newWidgets);
+            state.widgets = Object.assign([], newWidgets);
             return {
-                widgets: courseService.findWidgets(state.topicId)
+                widgets: state.widgets
             };
         case "UPDATE_WIDGET":
-            courseService.updateWidget(action.widgetId, action.widget);
+            let oldWidgets = Object.assign([], widgetService.getWidgets());
+            oldWidgets[action.widgetIndex] = Object.assign({}, action.widget);
+            widgetService.setWidgets(oldWidgets);
+            state.widgets = Object.assign([], oldWidgets);
             return {
-                widgets: courseService.findWidgets(state.topicId)
+                widgets: state.widgets
             };
-        case "FIND_WIDGET":
+        case "DELETE_WIDGET":
+            oldWidgets = Object.assign([], widgetService.getWidgets());
+            if (oldWidgets[action.widgetIndex].id !== undefined) {
+                widgetService.addToWidgetsToDelete(oldWidgets[action.widgetIndex].id)
+            }
+            oldWidgets.splice(action.widgetIndex, 1);
+            widgetService.setWidgets(oldWidgets);
+            state.widgets = Object.assign([], oldWidgets);
             return {
-                widget: courseService.findWidget(action.widgetId)
-            };
-        case "FIND_ALL_WIDGETS_FOR_TOPIC":
-            return {
-                topicId: action.topicId,
-                widgets: courseService.findWidgets(action.topicId)
-            };
-        case "FIND_ALL_WIDGETS":
-            return {
-                widgets: courseService.findAllWidgets()
+                widgets: state.widgets
             };
         case "MOVE_WIDGET_UP":
-            courseService.moveWidgetUp(action.widgetId, action.fromIndex);
+            oldWidgets = Object.assign([], widgetService.getWidgets());
+            oldWidgets.splice(action.widgetIndex - 1, 0, oldWidgets.splice(action.widgetIndex, 1)[0]);
+            widgetService.setWidgets(oldWidgets);
+            state.widgets = Object.assign([], oldWidgets);
             return {
-                widgets: courseService.findWidgets(state.topicId)
+                widgets: state.widgets
             };
         case "MOVE_WIDGET_DOWN":
-            courseService.moveWidgetDown(action.widgetId, action.fromIndex);
+            oldWidgets = Object.assign([], widgetService.getWidgets());
+            oldWidgets.splice(action.widgetIndex + 1, 0, oldWidgets.splice(action.widgetIndex, 1)[0]);
+            widgetService.setWidgets(oldWidgets);
+            state.widgets = Object.assign([], oldWidgets);
             return {
-                widgets: courseService.findWidgets(state.topicId)
+                widgets: state.widgets
             };
         case "SAVE_WIDGET_LIST":
-            courseService.saveWidgetList(action.topicId, action.widgets);
+            widgetService.saveWidgetList(
+                action.userId,
+                action.courseId,
+                action.moduleId,
+                action.lessonId,
+                action.topicId,
+                action.widgets
+            );
+            widgetService.findAllWidgets(
+                action.userId,
+                action.courseId,
+                action.moduleId,
+                action.lessonId,
+                action.topicId
+            ).then(widgets => {
+                widgetService.setWidgets(widgets);
+                widgetService.setWidgetsToDelete([]);
+                state.widgets = Object.assign([], widgets)
+            });
             return {
-                widgets: courseService.findWidgets(action.topicId),
+                widgets: state.widgets
             };
         case "TOGGLE_PREVIEW_MODE":
             return {
                 widgets: state.widgets,
-                topicId: state.topicId,
                 previewing: !state.previewing
             };
         default:

@@ -1,51 +1,47 @@
-import React from 'react'
 import {connect} from 'react-redux'
 import WidgetList from '../components/WidgetList'
 
 const stateToPropertyMapper = state => ({
     widgets: state.widgets,
-    currentTopicId: state.topicId,
     previewing: state.previewing
 });
 
 const dispatchToPropertyMapper = dispatch => ({
-    createWidget: (topicId, widget) => dispatch({
-        type: 'CREATE_WIDGET',
-        topicId: topicId,
-        widget: widget
-    }),
-    deleteWidget: widgetId => dispatch({
-        type: 'DELETE_WIDGET',
-        widgetId: widgetId
-    }),
-    updateWidget: (widgetId, widget) => dispatch({
-        type: 'UPDATE_WIDGET',
-        widgetId: widgetId,
-        widget: widget
-    }),
-    findWidget: widgetId => dispatch({
-        type: 'FIND_WIDGET',
-        widgetId: widgetId
-    }),
-    findWidgets: topicId => dispatch({
+    findAllWidgetsForTopic: (userId, courseId, moduleId, lessonId, topicId) => dispatch({
         type: 'FIND_ALL_WIDGETS_FOR_TOPIC',
+        userId: userId,
+        courseId: courseId,
+        moduleId: moduleId,
+        lessonId: lessonId,
         topicId: topicId
     }),
-    findAllWidgets: () => dispatch({
-        type: 'FIND_ALL_WIDGETS'
+    createWidget: newWidget => dispatch({
+        type: 'CREATE_WIDGET',
+        widget: newWidget
     }),
-    moveWidgetUp: (widgetId, fromIndex) => dispatch({
+    updateWidget: (widgetIndex, updatedWidget) => dispatch({
+        type: 'UPDATE_WIDGET',
+        widgetIndex: widgetIndex,
+        widget: updatedWidget
+    }),
+    deleteWidget: widgetIndex => dispatch({
+        type: 'DELETE_WIDGET',
+        widgetIndex: widgetIndex
+    }),
+    moveWidgetUp: widgetIndex => dispatch({
         type: "MOVE_WIDGET_UP",
-        widgetId: widgetId,
-        fromIndex: fromIndex
+        widgetIndex: widgetIndex
     }),
-    moveWidgetDown: (widgetId, fromIndex) => dispatch({
+    moveWidgetDown: widgetIndex => dispatch({
         type: 'MOVE_WIDGET_DOWN',
-        widgetId: widgetId,
-        fromIndex: fromIndex
+        widgetIndex: widgetIndex
     }),
-    saveWidgetList: (topicId, widgets) => dispatch({
+    saveWidgetList: (userId, courseId, moduleId, lessonId, topicId, widgets) => dispatch({
         type: 'SAVE_WIDGET_LIST',
+        userId: userId,
+        courseId: courseId,
+        moduleId: moduleId,
+        lessonId: lessonId,
         topicId: topicId,
         widgets: widgets
     }),

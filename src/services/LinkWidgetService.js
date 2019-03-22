@@ -1,4 +1,4 @@
-let baseURL = "http://localhost:8080/api/user/";
+let baseURL = "https://agile-stream-85906.herokuapp.com/api/user/";
 
 class LinkWidgetService {
     static linkWidgetService = null;

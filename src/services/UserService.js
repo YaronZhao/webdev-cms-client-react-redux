@@ -1,4 +1,4 @@
-let baseURL = "http://localhost:8080/api/";
+let baseURL = "https://agile-stream-85906.herokuapp.com/api/";
 
 class UserService {
     static userService = null;

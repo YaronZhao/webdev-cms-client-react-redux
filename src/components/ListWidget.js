@@ -1,4 +1,7 @@
 import React from 'react'
+import WidgetService from "../services/WidgetService";
+
+let widgetService = WidgetService.getInstance();
 
 const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidgetUp, moveWidgetDown, previewing}) =>
     <form>
@@ -9,7 +12,7 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
                     <div>
                         <span className="fa-stack move-up"
                               hidden={index === 0}
-                              onClick={() => moveWidgetUp(widget.id, index)}>
+                              onClick={() => moveWidgetUp(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-up fa-stack-1x fa-inverse"/>
                         </span>
@@ -17,7 +20,7 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
                     <div>
                         <span className="fa-stack move-down"
                               hidden={index === length - 1}
-                              onClick={() => moveWidgetDown(widget.id, index)}>
+                              onClick={() => moveWidgetDown(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-down fa-stack-1x fa-inverse"/>
                         </span>
@@ -26,9 +29,8 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
                         <select className="custom-select"
                                 defaultValue="LIST"
                                 onChange={event => {
-                                    widget.type = event.target.value;
-                                    let updatedWidget = Object.assign({}, widget);
-                                    updateWidget(widget.id, updatedWidget)
+                                    let updatedWidget = widgetService.updateWidgetToType(widget.id, event.target.value);
+                                    updateWidget(index, updatedWidget)
                                 }}>
                             <option value="HEADING">Heading</option>
                             <option value="PARAGRAPH">Paragraph</option>
@@ -40,7 +42,7 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
                     <div className="ml-1">
                         <span className="fas fa-minus-square fa-2x"
                               role="button"
-                              onClick={() => deleteWidget(widget.id)}/>
+                              onClick={() => deleteWidget(index)}/>
                     </div>
                 </div>
             </div>
@@ -50,12 +52,12 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
             <div className="col-sm-10 px-0">
                 <textarea className="form-control"
                           id="listTextFld"
-                          defaultValue={widget.items}
-                          rows={ widget.items.split("\n").length}
+                          defaultValue={widget.listItems}
+                          rows={ widget.listItems.split("\n").length}
                           onChange={event => {
-                              widget.items = event.target.value;
+                              widget.listItems = event.target.value;
                               let updatedWidget = Object.assign({}, widget);
-                              updateWidget(widget.widgetId, updatedWidget)
+                              updateWidget(index, updatedWidget)
                           }}/>
             </div>
         </div>
@@ -64,11 +66,11 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
             <div className="col-sm-10 px-0">
                 <select className="custom-select list-style"
                         id="listStyle"
-                        defaultValue={widget.style}
+                        defaultValue={widget.listStyle}
                         onChange={event => {
-                            widget.style = event.target.value;
+                            widget.listStyle = event.target.value;
                             let updatedWidget = Object.assign({}, widget);
-                            updateWidget(widget.id, updatedWidget)
+                            updateWidget(index, updatedWidget)
                         }}>
                     <option value="unordered">Unordered list</option>
                     <option value="ordered">Ordered list</option>
@@ -89,10 +91,10 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
         <div className="form-group row mb-4">
             <div className="col-sm-12">
                 {
-                    widget.style === "unordered" ?
+                    widget.listStyle === "unordered" ?
                         <ul>
                             {
-                                widget.items.split("\n").map((item, index) =>
+                                widget.listItems.split("\n").map((item, index) =>
                                     <li key={index}>{item}</li>
                                 )
                             }
@@ -100,7 +102,7 @@ const ListWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidg
                         :
                         <ol>
                             {
-                                widget.items.split("\n").map((item, index) =>
+                                widget.listItems.split("\n").map((item, index) =>
                                     <li key={index}>{item}</li>
                                 )
                             }

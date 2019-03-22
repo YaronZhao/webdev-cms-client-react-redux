@@ -1,4 +1,7 @@
 import React from 'react'
+import WidgetService from "../services/WidgetService";
+
+let widgetService = WidgetService.getInstance();
 
 const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidgetUp, moveWidgetDown, previewing}) =>
     <form>
@@ -9,7 +12,7 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
                     <div>
                         <span className="fa-stack move-up"
                               hidden={index === 0}
-                              onClick={() => moveWidgetUp(widget.id, index)}>
+                              onClick={() => moveWidgetUp(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-up fa-stack-1x fa-inverse"/>
                         </span>
@@ -17,7 +20,7 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
                     <div>
                         <span className="fa-stack move-down"
                               hidden={index === length - 1}
-                              onClick={() => moveWidgetDown(widget.id, index)}>
+                              onClick={() => moveWidgetDown(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-down fa-stack-1x fa-inverse"/>
                         </span>
@@ -26,9 +29,8 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
                         <select className="custom-select"
                                 defaultValue="HEADING"
                                 onChange={event => {
-                                    widget.type = event.target.value;
-                                    let updatedWidget = Object.assign({}, widget);
-                                    updateWidget(widget.id, updatedWidget)
+                                    let updatedWidget = widgetService.updateWidgetToType(widget.id, event.target.value);
+                                    updateWidget(index, updatedWidget)
                                 }}>
                             <option value="HEADING">Heading</option>
                             <option value="PARAGRAPH">Paragraph</option>
@@ -40,7 +42,7 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
                     <div className="ml-1">
                         <span className="fas fa-minus-square fa-2x"
                               role="button"
-                              onClick={() => deleteWidget(widget.id)}/>
+                              onClick={() => deleteWidget(index)}/>
                     </div>
                 </div>
             </div>
@@ -52,9 +54,9 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
                        id="headingTextFld"
                        placeholder={widget.headingText === "" ? "Heading text" : widget.headingText}
                        onChange={event => {
-                           widget.text = event.target.value;
+                           widget.headingText = event.target.value;
                            let updatedWidget = Object.assign({}, widget);
-                           updateWidget(widget.widgetId, updatedWidget)
+                           updateWidget(index, updatedWidget)
                        }}/>
             </div>
         </div>
@@ -62,11 +64,11 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
             <label htmlFor="headingSize" className="col-sm-2 col-form-label">Heading Size: </label>
             <div className="col-sm-10 px-0">
                 <select className="custom-select heading-size"
-                        defaultValue={widget.size}
+                        defaultValue={widget.headingSize}
                         onChange={event => {
-                            widget.size = parseInt(event.target.value);
+                            widget.headingSize = parseInt(event.target.value);
                             let updatedWidget = Object.assign({}, widget);
-                            updateWidget(widget.widgetId, updatedWidget)
+                            updateWidget(index, updatedWidget)
                         }}>
                     <option value="Choose size">Choose size</option>
                     <option value="1">Heading 1</option>
@@ -88,9 +90,9 @@ const HeadingWidget = ({length, index, widget, deleteWidget, updateWidget, moveW
         </div>
         <div className="form-group row pt-3 mb-4">
             <div className="col-sm-12">
-                {widget.size === 1 && <h1>{widget.headingText}</h1>}
-                {widget.size === 2 && <h2>{widget.headingText}</h2>}
-                {widget.size === 3 && <h3>{widget.headingText}</h3>}
+                {widget.headingSize === 1 && <h1>{widget.headingText}</h1>}
+                {widget.headingSize === 2 && <h2>{widget.headingText}</h2>}
+                {widget.headingSize === 3 && <h3>{widget.headingText}</h3>}
             </div>
         </div>
     </form>;

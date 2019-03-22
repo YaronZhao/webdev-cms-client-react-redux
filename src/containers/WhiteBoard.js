@@ -20,9 +20,9 @@ class WhiteBoard extends Component {
         this.userService = UserService.getInstance();
         this.state = {
             loggedIn: false,
-            currentUser: {},
+            currentUser: null,
             courses: [],
-            selectedCourse: {}
+            selectedCourse: null
         };
     }
 
@@ -72,7 +72,7 @@ class WhiteBoard extends Component {
         this.userService.logout()
             .then(() => this.setState({
                 loggedIn: false,
-                currentUser: {},
+                currentUser: null,
                 courses: []
             }))
     };

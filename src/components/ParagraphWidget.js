@@ -1,4 +1,7 @@
 import React from 'react'
+import WidgetService from "../services/WidgetService";
+
+let widgetService = WidgetService.getInstance();
 
 const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, moveWidgetUp, moveWidgetDown, previewing}) =>
     <form>
@@ -9,7 +12,7 @@ const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, mov
                     <div>
                         <span className="fa-stack move-up"
                               hidden={index === 0}
-                              onClick={() => moveWidgetUp(widget.id, index)}>
+                              onClick={() => moveWidgetUp(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-up fa-stack-1x fa-inverse"/>
                         </span>
@@ -17,7 +20,7 @@ const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, mov
                     <div>
                         <span className="fa-stack move-down"
                               hidden={index === length - 1}
-                              onClick={() => moveWidgetDown(widget.id, index)}>
+                              onClick={() => moveWidgetDown(index)}>
                             <i className="fas fa-square fa-stack-2x"/>
                             <i className="fas fa-arrow-down fa-stack-1x fa-inverse"/>
                         </span>
@@ -26,9 +29,8 @@ const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, mov
                         <select className="custom-select"
                                 defaultValue="PARAGRAPH"
                                 onChange={event => {
-                                    widget.type = event.target.value;
-                                    let updatedWidget = Object.assign({}, widget);
-                                    updateWidget(widget.id, updatedWidget)
+                                    let updatedWidget = widgetService.updateWidgetToType(widget.id, event.target.value);
+                                    updateWidget(index, updatedWidget)
                                 }}>
                             <option value="HEADING">Heading</option>
                             <option value="PARAGRAPH">Paragraph</option>
@@ -40,7 +42,7 @@ const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, mov
                     <div className="ml-1">
                         <span className="fas fa-minus-square fa-2x"
                               role="button"
-                              onClick={() => deleteWidget(widget.id)}/>
+                              onClick={() => deleteWidget(index)}/>
                     </div>
                 </div>
             </div>
@@ -52,9 +54,9 @@ const ParagraphWidget = ({length, index, widget, deleteWidget, updateWidget, mov
                           id="paragraphTextFld"
                           defaultValue={widget.paragraphText}
                           onChange={event => {
-                              widget.text = event.target.value;
+                              widget.paragraphText = event.target.value;
                               let updatedWidget = Object.assign({}, widget);
-                              updateWidget(widget.id, updatedWidget)
+                              updateWidget(index, updatedWidget)
                           }}/>
             </div>
         </div>
