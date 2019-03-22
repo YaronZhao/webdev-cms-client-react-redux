@@ -51,9 +51,9 @@ class TopicPills extends Component {
                                                 this.props.moduleId,
                                                 this.props.lessonId,
                                                 {
-                                                    "title": (this.state.newTopicTitle === "") ?
+                                                    title: (this.state.newTopicTitle === "") ?
                                                            "New Topic" : this.state.newTopicTitle,
-                                                    "widgets": []
+                                                    widgets: []
                                                 })}>
                                 +
                             </button>

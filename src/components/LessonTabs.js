@@ -73,9 +73,9 @@ class LessonTabs extends Component {
                                               this.props.courseId,
                                               this.props.moduleId,
                                               {
-                                                  "title": (this.state.newLessonTitle === "") ?
+                                                  title: (this.state.newLessonTitle === "") ?
                                                               "New Lesson" : this.state.newLessonTitle,
-                                                  "topics": []
+                                                  topics: []
                                               })}/>
                             </li>
                         </ul>

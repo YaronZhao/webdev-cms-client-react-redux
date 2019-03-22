@@ -26,8 +26,8 @@ const CourseTable = ({logout, userId, courses, addCourse, deleteCourse, selectCo
               role="button"
               onClick={() =>
                   addCourse(userId, {
-                      "title": "New Course",
-                      "modules": []
+                      title: "New Course",
+                      modules: []
                   })
               }>
             <i className="fas fa-circle fa-stack-2x"/>

@@ -31,8 +31,8 @@ const CourseGrid = ({logout, userId, courses, addCourse, deleteCourse, selectCou
               className="fa-stack fa-1x"
               role="button"
               onClick={() => addCourse(userId, {
-                  "title": "New Course",
-                  "modules": []
+                  title: "New Course",
+                  modules: []
               })}>
             <i className="fas fa-circle fa-stack-2x"/>
             <i className="fas fa-plus fa-stack-1x fa-inverse"/>

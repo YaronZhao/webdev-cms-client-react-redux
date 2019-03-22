@@ -55,9 +55,9 @@ class CourseListNavBar extends Component {
                           role="button"
                           onClick={() =>
                               this.props.addCourse(this.props.userId, {
-                                  "title": (this.state.newCourseTitle === "") ?
+                                  title: (this.state.newCourseTitle === "") ?
                                       "New Course" : this.state.newCourseTitle,
-                                  "modules": []
+                                  modules: []
                               })}>
                         <i className="fas fa-circle fa-stack-2x"/>
                         <i className="fas fa-plus fa-stack-1x fa-inverse"/>

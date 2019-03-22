@@ -50,9 +50,9 @@ class ModuleList extends Component {
                                         this.props.userId,
                                         this.props.courseId,
                                         {
-                                            "title": (this.state.newModuleTitle === "") ?
+                                            title: (this.state.newModuleTitle === "") ?
                                                         "New Module" : this.state.newModuleTitle,
-                                            "lessons": []
+                                            lessons: []
                                         })}/>
                     </span>
                 </nav>
