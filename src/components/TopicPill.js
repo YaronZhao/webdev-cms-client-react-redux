@@ -27,9 +27,7 @@ const TopicPill = ({index, userId, courseId, moduleId, lessonId, topics,
                        let newTitle = document.getElementById(inputId).value;
                        document.getElementById(inputId).blur();
                        updateTopic(userId, courseId, moduleId, lessonId, topicId, {
-                           "id": topic.id,
-                           "title": newTitle,
-                           "widgets": topic.widgets
+                           "title": newTitle
                        })
                    }}/>
             </span>

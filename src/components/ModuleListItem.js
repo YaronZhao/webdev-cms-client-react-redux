@@ -24,9 +24,7 @@ const  ModuleListItem = ({index, modules, module, userId, courseId, moduleId,
                    let newTitle = document.getElementById(inputId).value;
                    document.getElementById(inputId).blur();
                    updateModule(userId, courseId, moduleId, {
-                       "id": module.id,
-                       "title": newTitle,
-                       "lessons": module.lessons
+                       "title": newTitle
                    })
                }}/>
         </span>

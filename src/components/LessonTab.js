@@ -29,9 +29,7 @@ const LessonTab = ({index, userId, courseId, moduleId, lessons, lessonId,
                        let newTitle = document.getElementById(inputId).value;
                        document.getElementById(inputId).blur();
                        updateLesson(userId, courseId, moduleId, lessonId, {
-                           "id": lesson.id,
-                           "title": newTitle,
-                           "topics": lesson.topics
+                           "title": newTitle
                        })
                    }}/>
             </span>
