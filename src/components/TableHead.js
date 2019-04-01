@@ -16,14 +16,14 @@ const TableHead = () =>
                                   title="Grid"
                                   role="button"
                                   style={{color:
-                                          (window.location.href === "http://localhost:3000/course/grid" ? '#007bff' : '#555555'),
+                                          (window.location.href.indexOf("grid") > -1 ? '#007bff' : '#555555'),
                                           textDecoration: 'none'}}/>
                             <Link to="/course/table"
                                   className="fas fa-list fa-x ml-4"
                                   title="Table"
                                   role="button"
                                   style={{color:
-                                          (window.location.href === "http://localhost:3000/course/table" ? '#007bff' : '#555555'),
+                                          (window.location.href.indexOf("table") > -1 ? '#007bff' : '#555555'),
                                           textDecoration: 'none'}}/>
                             <i className="fas fa-sort-alpha-down fa-lg btn-sort"
                                role="button"/>
