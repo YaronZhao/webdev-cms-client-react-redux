@@ -17,9 +17,9 @@ class ModuleList extends Component {
     };
 
     render() {
-        return(
-            <div id="left-nav" className="col-3">
-                <nav className="nav flex-column nav-pills py-4 px-4">
+        return (
+            <div id="left-nav" className="col-3 show px-0">
+                <nav className="nav flex-column nav-pills py-md-4 px-md-4">
                     {
                         this.props.modules.map((module, index) => (
                             <ModuleListItem
@@ -51,7 +51,7 @@ class ModuleList extends Component {
                                         this.props.courseId,
                                         {
                                             title: (this.state.newModuleTitle === "") ?
-                                                        "New Module" : this.state.newModuleTitle,
+                                                "New Module" : this.state.newModuleTitle,
                                             lessons: []
                                         })}/>
                     </span>

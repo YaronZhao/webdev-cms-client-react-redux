@@ -8,7 +8,7 @@ const LoginComponent = ({login}) =>
         <div className="form-group row">
             <label htmlFor="username" className="col-sm-2 col-form-label">Username</label>
             <div className="col-sm-10">
-                <input className="form-control" id="username" placeholder="Yaron"/>
+                <input className="form-control" id="username" placeholder="charlie"/>
             </div>
             </div>
             <div className="form-group row">
@@ -17,7 +17,7 @@ const LoginComponent = ({login}) =>
                     <input type="password"
                            className="form-control wbdv-password-fld"
                            id="password"
-                           placeholder="WebDev-123*"/>
+                           placeholder="password"/>
                 </div>
             </div>
             <div className="form-group row">

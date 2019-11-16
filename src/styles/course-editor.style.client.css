@@ -328,3 +328,22 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+@media (min-width: 400px) and (max-width: 576px) {
+    .left-nav-span {
+        width: 100%;
+    }
+
+    .module-title, .module-delete, .module-edit, .module-save {
+        font-size: 12px;
+    }
+
+    .module-title {
+        width: 40px;
+    }
+
+    #left-nav input {
+        width: 40px;
+        padding: 0;
+    }
+}

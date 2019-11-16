@@ -27,6 +27,13 @@ class LessonTabs extends Component {
                               onClick={() => window.history.back()}/>
                         {this.props.courseTitle}
                     </span>
+                    <a className="btn btn-info"
+                       data-toggle="collapse"
+                       href="#left-nav"
+                       role="button"
+                       aria-expanded="true">
+                        All Modules
+                    </a>
                     <button className="navbar-toggler"
                             type="button"
                             data-toggle="collapse"
