@@ -1,4 +1,4 @@
-let baseURL = "https://agile-stream-85906.herokuapp.com/api/user/";
+let baseURL = "https://webdev-cms-server-mysql-jpa.herokuapp.com/api/user/";
 
 class ParagraphWidgetService {
     static paragraphWidgetService = null;

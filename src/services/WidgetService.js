@@ -4,7 +4,7 @@ import ListWidgetService from "./ListWidgetService";
 import LinkWidgetService from "./LinkWidgetService";
 import ImageWidgetService from "./ImageWidgetService";
 
-let baseURL = "https://agile-stream-85906.herokuapp.com/api/user/";
+let baseURL = "https://webdev-cms-server-mysql-jpa.herokuapp.com/api/user/";
 
 class WidgetService {
     static widgetService = null;

@@ -1,4 +1,4 @@
-let baseURL = "https://agile-stream-85906.herokuapp.com/api/";
+let baseURL = "https://webdev-cms-server-mysql-jpa.herokuapp.com/api/";
 
 class UserService {
     static userService = null;
