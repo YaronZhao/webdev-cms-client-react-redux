@@ -27,15 +27,23 @@ class WhiteBoard extends Component {
     }
 
     login = user => {
+        let spinner = document.getElementById('loadingSpinner');
+        spinner.classList.remove('d-none');
+        spinner.classList.add('d-flex');
         this.userService.login(user)
             .then(user => {
                 this.setState({
                     loggedIn: true,
                     currentUser: user
                 });
-                this.findAllCourses(user.id)
+                return this.courseService.findAllCourses(user.id)
             })
+            .then(courses => this.setState({courses: courses}))
             .catch(() => alert("User Not Found! Please try again."))
+            .finally(() => {
+                spinner.classList.remove('d-flex');
+                spinner.classList.add('d-none');
+            })
     };
 
     register = newUser => {
@@ -81,13 +89,6 @@ class WhiteBoard extends Component {
         this.setState({
                 selectedCourse: course
             })
-    };
-
-    findAllCourses = userId => {
-        this.courseService.findAllCourses(userId)
-            .then(courses => this.setState({
-                courses: courses
-            }))
     };
 
     addCourse = (userId, newCourse) => {

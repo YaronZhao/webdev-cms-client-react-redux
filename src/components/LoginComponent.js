@@ -62,6 +62,10 @@ const LoginComponent = ({login}) =>
                             </a>
                         </div>
                     </div>
+                    <div id="loadingSpinner" className="d-none justify-content-center">
+                        <strong className="text-primary">Loading...</strong>
+                        <div className="spinner-border ml-2 text-primary" role="status" aria-hidden="true"/>
+                    </div>
                 </div>
             </div>
     </div>;
