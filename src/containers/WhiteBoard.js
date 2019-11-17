@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {Router, Route} from "react-router-dom";
 import '../styles/course-list.style.client.css'
 import '../styles/course-editor.style.client.css'
 import CourseService from '../services/CourseService'
@@ -12,6 +12,9 @@ import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
 import ProfileComponent from "../components/ProfileComponent";
 import UserService from "../services/UserService";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 class WhiteBoard extends Component {
     constructor(props) {
@@ -27,6 +30,7 @@ class WhiteBoard extends Component {
     }
 
     login = user => {
+        document.getElementById('loginBtn').disabled = true;
         let spinner = document.getElementById('loadingSpinner');
         spinner.classList.remove('d-none');
         spinner.classList.add('d-flex');
@@ -41,8 +45,10 @@ class WhiteBoard extends Component {
             .then(courses => this.setState({courses: courses}))
             .catch(() => alert("User Not Found! Please try again."))
             .finally(() => {
+                document.getElementById('loginBtn').disabled = false;
                 spinner.classList.remove('d-flex');
                 spinner.classList.add('d-none');
+                history.push('/course/table')
             })
     };
 
@@ -109,7 +115,7 @@ class WhiteBoard extends Component {
 
     render() {
         return (
-            <Router>
+            <Router history={history}>
                 <div>
                     <Switch>
                         {this.state.loggedIn

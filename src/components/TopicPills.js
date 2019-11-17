@@ -41,6 +41,7 @@ class TopicPills extends Component {
                         <span>
                             <input id="newTopicName"
                                    type="text"
+                                   placeholder="New Topic"
                                    onChange={this.updateForm}/>
                             <button id="addNewTopicBtn"
                                     className="ml-3 btn-secondary"

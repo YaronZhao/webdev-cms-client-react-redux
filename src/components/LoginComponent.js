@@ -36,15 +36,16 @@ const LoginComponent = ({login}) =>
             <div className="form-group row">
                 <label className="col-sm-2 col-form-label"/>
                 <div className="col-sm-10">
-                    <Link to="/course/table"
-                          className="btn btn-primary btn-block"
-                          onClick={() => login({
-                              "userName": document.getElementById("username").value,
-                              "password": document.getElementById("password").value,
-                              "role": document.getElementById("role").value
-                          })}>
+                    <button
+                        id="loginBtn"
+                        className="btn btn-primary btn-block"
+                        onClick={() => login({
+                            "userName": document.getElementById("username").value,
+                            "password": document.getElementById("password").value,
+                            "role": document.getElementById("role").value
+                        })}>
                         Sign in
-                    </Link>
+                    </button>
                     <div className="row">
                         <div className="col-6">
                             <a href="#">Forgot Password?</a>

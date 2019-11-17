@@ -67,6 +67,7 @@ class LessonTabs extends Component {
                                 <label>
                                     <input id="newLessonTitle"
                                            type="text"
+                                           placeholder="New Lesson"
                                            onChange={this.updateForm}/>
                                 </label>
                             </li>

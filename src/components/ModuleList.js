@@ -41,6 +41,7 @@ class ModuleList extends Component {
                         <input id="newModuleName"
                                className="w-75"
                                type="text"
+                               placeholder="New Module"
                                onChange={this.updateForm}/>
 						<button type="button"
                                 id="addNewModuleBtn"
