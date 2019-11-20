@@ -97,6 +97,13 @@ class WhiteBoard extends Component {
             })
     };
 
+    findAllCourses = userId => {
+        this.courseService.findAllCourses(userId)
+            .then(courses => this.setState({
+                courses: courses
+            }))
+    };
+
     addCourse = (userId, newCourse) => {
         console.log(newCourse);
         this.courseService.createCourse(userId, newCourse)
