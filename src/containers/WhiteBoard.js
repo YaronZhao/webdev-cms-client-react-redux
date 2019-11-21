@@ -22,9 +22,7 @@ class WhiteBoard extends Component {
         this.courseService = CourseService.getInstance();
         this.userService = UserService.getInstance();
         this.state = {
-            loggedIn: false,
             currentUser: null,
-            courses: [],
             selectedCourse: null
         };
     }
@@ -36,13 +34,9 @@ class WhiteBoard extends Component {
         spinner.classList.add('d-flex');
         this.userService.login(user)
             .then(user => {
-                this.setState({
-                    loggedIn: true,
-                    currentUser: user
-                });
-                return this.courseService.findAllCourses(user.id)
+                this.setState({ currentUser: user });
+                localStorage.setItem('currentUser', JSON.stringify(user));
             })
-            .then(courses => this.setState({courses: courses}))
             .catch(() => alert("User Not Found! Please try again."))
             .finally(() => {
                 document.getElementById('loginBtn').disabled = false;
@@ -55,69 +49,59 @@ class WhiteBoard extends Component {
     register = newUser => {
         this.userService.register(newUser)
             .then(user => {
-                this.setState({
-                    loggedIn: true,
-                    currentUser: user
-                });
-                this.findAllCourses(user.id)
+                this.setState({ currentUser: user });
+                localStorage.setItem('currentUser', JSON.stringify(user));
             })
-            .catch(() => {
-                this.setState({
-                    loggedIn: false,
-                });
-                alert("Username already taken.");
-            })
+            .catch(() => alert("Username already taken."))
     };
 
     updateUser = (userId, updatedUser) => {
         this.userService.updateUser(userId, updatedUser)
             .then(user => {
-                this.setState({
-                    currentUser: user
-                });
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.setState({ currentUser: user });
                 return user;
             })
             .catch(() => {
+                alert("Failed to update the user");
                 return null;
             })
     };
 
     logout = () => {
         this.userService.logout()
-            .then(() => this.setState({
-                loggedIn: false,
-                currentUser: null,
-                courses: []
-            }))
+            .then(() => {
+                localStorage.removeItem('currentUser');
+                this.setState({ currentUser: null })
+            })
+            .catch(error => alert(error))
     };
 
     selectCourse = course => {
-        this.setState({
-                selectedCourse: course
-            })
+        this.setState({ selectedCourse: course });
+        localStorage.setItem('selectedCourseTitle', course.title)
     };
 
-    findAllCourses = userId => {
-        this.courseService.findAllCourses(userId)
-            .then(courses => this.setState({
-                courses: courses
-            }))
+    findUserById = userId => {
+        this.userService.findUserById(userId)
+            .then(user => {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.setState({currentUser: user})
+            })
+            .catch(error => alert(error))
     };
 
     addCourse = (userId, newCourse) => {
         console.log(newCourse);
         this.courseService.createCourse(userId, newCourse)
-            .then(() => this.findAllCourses(userId))
-    };
-
-    updateCourse = (userId, courseId, updatedCourse) => {
-        this.courseService.updateCourse(userId, courseId, updatedCourse)
-            .then(() => this.findAllCourses(userId))
+            .then(() => this.findUserById(userId))
+            .catch(error => alert(error))
     };
 
     deleteCourse = (userId, courseId) => {
         this.courseService.deleteCourse(userId, courseId)
-            .then(() => this.findAllCourses(userId))
+            .then(() => this.findUserById(userId))
+            .catch(error => alert(error))
     };
 
     render() {
@@ -125,13 +109,13 @@ class WhiteBoard extends Component {
             <Router history={history}>
                 <div>
                     <Switch>
-                        {this.state.loggedIn
+                        {localStorage.getItem('currentUser')
                         && <Route path="/course/table"
                                   render={() =>
                                       <CourseTable
                                           logout={this.logout}
-                                          userId={this.state.currentUser.id}
-                                          courses={this.state.courses}
+                                          userId={JSON.parse(localStorage.getItem('currentUser')).id}
+                                          courses={JSON.parse(localStorage.getItem('currentUser')).courses}
                                           addCourse={this.addCourse}
                                           deleteCourse={this.deleteCourse}
                                           selectCourse={this.selectCourse}/>}
@@ -141,8 +125,8 @@ class WhiteBoard extends Component {
                             render={() =>
                                 <CourseGrid
                                     logout={this.logout}
-                                    userId={this.state.currentUser.id}
-                                    courses={this.state.courses}
+                                    userId={JSON.parse(localStorage.getItem('currentUser')).id}
+                                    courses={JSON.parse(localStorage.getItem('currentUser')).courses}
                                     addCourse={this.addCourse}
                                     deleteCourse={this.deleteCourse}
                                     selectCourse={this.selectCourse}/>
@@ -152,13 +136,13 @@ class WhiteBoard extends Component {
                                render={(props) =>
                                     <CourseEditor
                                         {...props}
-                                        userId={this.state.currentUser.id}
-                                        courseTitle={this.state.selectedCourse.title}/>}/>
+                                        userId={JSON.parse(localStorage.getItem('currentUser')).id}
+                                        courseTitle={localStorage.getItem('selectedCourseTitle')}/>}/>
                         <Route
                             path="/profile"
                             render={() =>
                                 <ProfileComponent
-                                    currentUser={this.state.currentUser}
+                                    currentUser={JSON.parse(localStorage.getItem('currentUser'))}
                                     hideAlert={true}
                                     updateUser={this.updateUser}/>}/>
                         <Route path="/register"
