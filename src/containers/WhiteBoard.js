@@ -109,17 +109,16 @@ class WhiteBoard extends Component {
             <Router history={history}>
                 <div>
                     <Switch>
-                        {localStorage.getItem('currentUser')
-                        && <Route path="/course/table"
-                                  render={() =>
-                                      <CourseTable
-                                          logout={this.logout}
-                                          userId={JSON.parse(localStorage.getItem('currentUser')).id}
-                                          courses={JSON.parse(localStorage.getItem('currentUser')).courses}
-                                          addCourse={this.addCourse}
-                                          deleteCourse={this.deleteCourse}
-                                          selectCourse={this.selectCourse}/>}
-                        />}
+                        <Route
+                            path="/course/table"
+                            render={() =>
+                                <CourseTable
+                                    logout={this.logout}
+                                    userId={JSON.parse(localStorage.getItem('currentUser')).id}
+                                    courses={JSON.parse(localStorage.getItem('currentUser')).courses}
+                                    addCourse={this.addCourse}
+                                    deleteCourse={this.deleteCourse}
+                                    selectCourse={this.selectCourse}/>}/>
                         <Route
                             path="/course/grid"
                             render={() =>
